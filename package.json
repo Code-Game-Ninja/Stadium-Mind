@@ -1,0 +1,31 @@
+{
+  "name": "stadiummind-ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "StadiumMind AI - The AI Operating System for FIFA World Cup 2026 Stadiums",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run build:shared && concurrently -n api,web -c cyan,magenta \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "npm run dev --workspace @stadiummind/api",
+    "dev:web": "npm run dev --workspace @stadiummind/web",
+    "build": "npm run build --workspace @stadiummind/shared && npm run build --workspace @stadiummind/api && npm run build --workspace @stadiummind/web",
+    "build:shared": "npm run build --workspace @stadiummind/shared",
+    "start": "concurrently -n api,web -c cyan,magenta \"npm run start --workspace @stadiummind/api\" \"npm run start --workspace @stadiummind/web\"",
+    "typecheck": "npm run build:shared && npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspace @stadiummind/web && npm run lint --workspace @stadiummind/api",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "^2.1.197",
+    "concurrently": "^9.1.0",
+    "next": "^14.2.33"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

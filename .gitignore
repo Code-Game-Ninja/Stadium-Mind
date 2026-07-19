@@ -1,0 +1,26 @@
+.DS_Store
+Thumbs.db
+node_modules/
+.env
+.env.*
+!.env.example
+
+# credentials — never commit
+firebase-service-account.json
+*-firebase-adminsdk*.json
+*service-account*.json
+dist/
+build/
+.next/
+.turbo/
+next-env.d.ts
+coverage/
+*.log
+.vscode/
+.idea/
+tmp/
+
+# Ignore local keys and dev logs
+apps/api/base64-key.txt
+.claude/
+.devlogs/

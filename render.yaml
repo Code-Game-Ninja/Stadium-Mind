@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: stadiummind-api
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: .
+    buildCommand: npm install && npm run build --workspace @stadiummind/shared && npm run build --workspace @stadiummind/api
+    startCommand: npm run start --workspace @stadiummind/api
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: PORT
+        value: 4000
+      - key: WEB_ORIGIN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: SPORTMONKS_API_KEY
+        sync: false
+      - key: LIVE_FEED_MATCH_ID
+        sync: false
+      - key: GOOGLE_APPLICATION_CREDENTIALS
+        value: ./firebase-service-account.json
+      - key: FIREBASE_SERVICE_ACCOUNT_BASE64
+        sync: false

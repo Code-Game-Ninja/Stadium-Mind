@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StadiumMind AI Response Schemas",
+  "definitions": {
+    "recommendation": {
+      "type": "object",
+      "required": [
+        "title",
+        "action",
+        "confidence",
+        "reason",
+        "expectedOutcome",
+        "impactedZones"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "reason": {
+          "type": "string"
+        },
+        "expectedOutcome": {
+          "type": "string"
+        },
+        "impactedZones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "fanJourneyPlan": {
+      "type": "object",
+      "required": [
+        "summary",
+        "steps",
+        "arrivalEstimate",
+        "warnings"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "order",
+              "label",
+              "location",
+              "durationMinutes"
+            ],
+            "properties": {
+              "order": {
+                "type": "integer"
+              },
+              "label": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "durationMinutes": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "arrivalEstimate": {
+          "type": "string"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,165 @@
+openapi: 3.1.0
+info:
+  title: StadiumMind AI API
+  version: 0.1.0
+  description: REST API contract for the StadiumMind AI hackathon prototype.
+servers:
+  - url: http://localhost:4000/api
+    description: Local backend
+security:
+  - bearerAuth: []
+paths:
+  /matches:
+    get:
+      summary: List matches
+      security: []
+      responses:
+        "200":
+          description: Match list
+  /matches/{matchId}:
+    get:
+      summary: Get match details
+      security: []
+      parameters:
+        - name: matchId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Match details }
+  /tickets/verify:
+    post:
+      summary: Verify a demo ticket against a selected match
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ticketId, matchId]
+              properties:
+                ticketId: { type: string, example: WC2026-453621 }
+                matchId: { type: string, format: uuid }
+      responses:
+        "200": { description: Verification result }
+        "404": { description: Ticket not found }
+  /fan/journey:
+    post:
+      summary: Generate AI fan journey plan
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FanJourneyRequest"
+      responses:
+        "200": { description: AI journey plan }
+  /admin/dashboard/{matchId}:
+    get:
+      summary: Get organizer dashboard snapshot
+      parameters:
+        - name: matchId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Dashboard snapshot }
+  /admin/recommendations/{id}/apply:
+    post:
+      summary: Apply recommendation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Recommendation applied }
+  /admin/recommendations/{id}/dismiss:
+    post:
+      summary: Dismiss recommendation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200": { description: Recommendation dismissed }
+  /admin/what-if:
+    post:
+      summary: Run what-if simulation through Gemini
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [matchId, question]
+              properties:
+                matchId: { type: string, format: uuid }
+                question: { type: string }
+      responses:
+        "200": { description: What-if analysis }
+  /admin/reports/match-brief:
+    post:
+      summary: Generate pre-match operations brief
+      responses:
+        "200": { description: Match brief }
+  /admin/reports/end-match:
+    post:
+      summary: Generate end-match report
+      responses:
+        "200": { description: End-match report }
+  /volunteer/sop:
+    post:
+      summary: Ask volunteer SOP assistant
+      responses:
+        "200": { description: SOP guidance }
+  /incidents:
+    get:
+      summary: List incidents
+      responses:
+        "200": { description: Incidents }
+    post:
+      summary: Create incident
+      responses:
+        "201": { description: Incident created }
+  /simulation/scenario:
+    post:
+      summary: Apply demo simulation scenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [matchId, scenario]
+              properties:
+                matchId: { type: string, format: uuid }
+                scenario:
+                  type: string
+                  enum: [increase_crowd, rain_starts, metro_delay, medical_emergency, parking_full, food_overload, lost_child, power_issue]
+      responses:
+        "200": { description: Scenario applied }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    FanJourneyRequest:
+      type: object
+      required: [matchId, ticketId, preferences]
+      properties:
+        matchId: { type: string, format: uuid }
+        ticketId: { type: string }
+        arrivalMethod: { type: string, enum: [metro, car, bus, taxi, walking] }
+        preferences:
+          type: object
+          properties:
+            wantsFood: { type: boolean }
+            wantsWashroom: { type: boolean }
+            wantsMerchandise: { type: boolean }
+            accessibilityNeed: { type: string }

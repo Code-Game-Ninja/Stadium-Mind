@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  color: #1e293b; /* Slate-800 default text */
+}
+
+body {
+  min-height: 100vh;
+  /* Brand outer backdrop — ink black with a soft lime aura (matches landing) */
+  background-color: #191a23;
+  background-image:
+    radial-gradient(1000px circle at 0% 0%, rgba(185, 255, 102, 0.08), transparent 45%),
+    radial-gradient(1200px circle at 100% 100%, rgba(185, 255, 102, 0.05), transparent 45%);
+  background-attachment: fixed;
+}
+
+/* Custom scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Accessible focus ring */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid rgba(25, 26, 35, 0.6);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@layer components {
+  .panel {
+    @apply rounded-[20px] border border-base-500 bg-white shadow-panel;
+  }
+  .panel-header {
+    @apply flex items-center justify-between gap-3 border-b border-base-500 px-5 py-4;
+  }
+  .stat-tile {
+    @apply rounded-xl border border-base-500 bg-base-400 px-4 py-3 transition-colors;
+  }
+
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-150 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-white hover:bg-lime hover:text-ink hover:shadow-glow;
+  }
+  .btn-ghost {
+    @apply btn border border-base-500 bg-white text-base-900 hover:border-base-700 hover:bg-base-400;
+  }
+  .btn-danger {
+    @apply btn border border-red-200 bg-red-50 text-red-700 hover:bg-red-100;
+  }
+  .btn-lg {
+    @apply px-5 py-2.5 text-[15px];
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-base-500 bg-white px-3 py-2 text-sm text-base-975 transition-colors placeholder:text-base-750 hover:border-base-700 focus:border-ink focus:outline-none focus:ring-2 focus:ring-ink/10;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-bold uppercase tracking-wide text-base-800;
+  }
+
+  /* Loading skeleton with shimmer sweep */
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-base-500;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-slate-900/5 to-transparent;
+  }
+
+  /* Interactive elevated card (hover lift) */
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:border-base-700 hover:shadow-lift;
+  }
+
+  .section-eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.18em] text-ink;
+  }
+
+  /* Premium staggered entrance — apply .rise to items, set --rise-delay per item */
+  .rise {
+    animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+}
+
+@keyframes rise-in {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Live/critical pulse ring */
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+.pulse-red {
+  animation: pulse-ring 2s infinite;
+}
+
+/* Animated route dash */
+.route-dash {
+  stroke-dasharray: 1.5 1;
+  animation: dash-flow 1s linear infinite;
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -20; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
