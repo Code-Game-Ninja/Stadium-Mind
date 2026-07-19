@@ -10,8 +10,9 @@ if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = resolve(__dirname, '../stadium-f6e21-firebase-adminsdk.json');
 }
 
-import { db } from './firebase';
-import { getMatchState, getMatches } from './store';
+import { db, auth } from './firebase';
+import { getMatchState } from './store';
+import { STADIUMS, MATCHES, TICKETS, DEMO_CREDENTIALS, DEMO_TICKET_IDS } from '@stadiummind/shared';
 
 async function clearCollection(collectionName: string) {
   const snap = await db.collection(collectionName).get();
@@ -55,11 +56,7 @@ async function seed() {
   await clearCollection('tickets');
   await clearCollection('config');
 
-  const { STADIUMS, MATCHES, TICKETS, DEMO_CREDENTIALS, DEMO_TICKET_IDS } = require('@stadiummind/shared');
 
-  console.log('Seeding Demo Users into Firebase Auth...');
-  const { auth } = require('./firebase');
-  
   async function ensureUser(email: string, password: string, displayName: string, role: string) {
     let uid: string;
     try {
@@ -102,7 +99,7 @@ async function seed() {
   // 2. Re-seed by triggering getMatchState for all static matches
   // getMatches uses staticMatches internally until we update it, but here we can just use the MATCHES array
   for (const match of MATCHES) {
-    console.log(`Seeding match subcollections: ${match.id} (${match.name})`);
+    console.log(`Seeding match subcollections: ${match.id} (${match.homeTeam} vs ${match.awayTeam})`);
     // getMatchState calls ensureFirebaseSeeded internally if the doc doesn't exist.
     await getMatchState(match.id);
   }

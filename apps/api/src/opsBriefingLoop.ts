@@ -28,7 +28,7 @@ export function startOpsBriefingLoop(io: SocketServer): NodeJS.Timeout {
         const match = await getMatch(room);
         if (!match) continue;
         const snapshot = await buildSnapshot(room);
-        const { aiSummary, ...base } = snapshot;
+        const { aiSummary: _aiSummary, ...base } = snapshot;
         const briefing = await generateOpsBriefing(base);
         io.to(room).emit(SOCKET_EVENTS.aiSummaryUpdated, { matchId: room, aiSummary: briefing });
       } catch (err) {

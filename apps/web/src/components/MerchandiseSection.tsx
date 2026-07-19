@@ -28,6 +28,7 @@ export function MerchandiseSection({ matchId = DEMO_MATCH_ID }: { matchId?: stri
     };
     window.addEventListener('merch-updated', handleUpdate);
     return () => window.removeEventListener('merch-updated', handleUpdate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

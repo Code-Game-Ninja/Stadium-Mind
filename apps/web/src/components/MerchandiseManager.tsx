@@ -36,6 +36,7 @@ export function MerchandiseManager({ matchId }: { matchId: string }) {
 
   useEffect(() => {
     refreshMerchandise();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleUpdateStock = async (id: string, newStock: number) => {

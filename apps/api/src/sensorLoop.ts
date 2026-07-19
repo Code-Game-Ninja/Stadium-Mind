@@ -9,7 +9,7 @@
 
 import type { Server as SocketServer } from 'socket.io';
 import { SOCKET_EVENTS, loadFromOccupancy, type StadiumZone } from '@stadiummind/shared';
-import { getMatch, getMatchState, setZoneOccupancies } from './store';
+import { getMatch, getMatchState } from './store';
 
 const TICK_MS = 8000;
 

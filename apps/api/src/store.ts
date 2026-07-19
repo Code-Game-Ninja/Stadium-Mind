@@ -14,6 +14,7 @@ import {
   INITIAL_MERCH,
   loadFromOccupancy,
   fallbackAiSummary,
+  DEMO_TICKET_IDS,
   type MatchWithStadium,
   type StadiumZone,
   type Volunteer,
@@ -309,7 +310,6 @@ export async function getConfig(): Promise<{ ticketIds: string[] }> {
   // NOTE: demo credentials are intentionally NOT served over the API.
   // The login page reads them from the shared package for its quick-fill buttons.
   if (!USE_FIREBASE) {
-    const { DEMO_TICKET_IDS } = require('@stadiummind/shared');
     return { ticketIds: DEMO_TICKET_IDS };
   }
   const configDoc = await db.collection('config').doc('demo').get();

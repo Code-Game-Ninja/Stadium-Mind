@@ -17,12 +17,17 @@
     "start": "concurrently -n api,web -c cyan,magenta \"npm run start --workspace @stadiummind/api\" \"npm run start --workspace @stadiummind/web\"",
     "typecheck": "npm run build:shared && npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspace @stadiummind/web && npm run lint --workspace @stadiummind/api",
-    "smoke": "node scripts/smoke.mjs"
+    "smoke": "node scripts/smoke.mjs",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@anthropic-ai/claude-code": "^2.1.197",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "concurrently": "^9.1.0",
-    "next": "^14.2.33"
+    "jsdom": "^29.1.1",
+    "next": "^14.2.33",
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">=20"
