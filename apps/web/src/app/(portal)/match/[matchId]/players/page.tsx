@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { api } from '@/lib/api';
 import type { Player, MatchWithStadium } from '@stadiummind/shared';
 import { Loader2, Shield, AlertCircle, X, Activity, Trophy, Star } from 'lucide-react';
@@ -96,14 +97,14 @@ export default function PlayersPage({ params }: { params: { matchId: string } })
         <div className="mt-3 flex items-center gap-4 text-lg text-slate-600 font-semibold bg-white/50 backdrop-blur-md px-6 py-4 rounded-2xl border border-slate-200/50 shadow-sm inline-flex">
           <div className="flex items-center gap-2">
             {getFlagUrl(match.homeTeam) && (
-              <img src={getFlagUrl(match.homeTeam)!} alt={match.homeTeam} className="w-6 h-auto rounded-sm shadow-sm" />
+              <Image src={getFlagUrl(match.homeTeam)!} alt={match.homeTeam} width={24} height={18} className="w-6 h-auto rounded-sm shadow-sm" />
             )}
             <span className="text-ink">{match.homeTeam}</span>
           </div>
           <span className="text-slate-400 text-sm">VS</span>
           <div className="flex items-center gap-2">
             {getFlagUrl(match.awayTeam) && (
-              <img src={getFlagUrl(match.awayTeam)!} alt={match.awayTeam} className="w-6 h-auto rounded-sm shadow-sm" />
+              <Image src={getFlagUrl(match.awayTeam)!} alt={match.awayTeam} width={24} height={18} className="w-6 h-auto rounded-sm shadow-sm" />
             )}
             <span className="text-ink">{match.awayTeam}</span>
           </div>
@@ -122,7 +123,7 @@ export default function PlayersPage({ params }: { params: { matchId: string } })
           )}
         >
           {getFlagUrl(match.homeTeam) && (
-            <img src={getFlagUrl(match.homeTeam)!} alt="" className="w-5 h-auto rounded-sm" />
+            <Image src={getFlagUrl(match.homeTeam)!} alt="" width={20} height={15} className="w-5 h-auto rounded-sm" />
           )}
           {match.homeTeam}
         </button>
@@ -136,7 +137,7 @@ export default function PlayersPage({ params }: { params: { matchId: string } })
           )}
         >
           {getFlagUrl(match.awayTeam) && (
-            <img src={getFlagUrl(match.awayTeam)!} alt="" className="w-5 h-auto rounded-sm" />
+            <Image src={getFlagUrl(match.awayTeam)!} alt="" width={20} height={15} className="w-5 h-auto rounded-sm" />
           )}
           {match.awayTeam}
         </button>
@@ -190,7 +191,7 @@ function PlayerCard({ player, onClick }: { player: Player, onClick: () => void }
       className="group flex w-full items-center gap-4 rounded-2xl border border-slate-200/60 bg-white/70 backdrop-blur-md p-4 shadow-sm transition-all hover:shadow-xl hover:shadow-ink/5 hover:-translate-y-1 text-left"
     >
       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-slate-100/80 group-hover:bg-lime-50 transition-colors border border-slate-200/50 group-hover:border-lime/30">
-        <img src={imgUrl} alt={player.name} className="object-cover w-full h-full" />
+        <Image src={imgUrl} alt={player.name} fill sizes="56px" className="object-cover w-full h-full" />
         <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-ink text-[10px] font-black text-lime border-2 border-white">
           {player.jerseyNumber}
         </div>
@@ -226,14 +227,14 @@ function PlayerProfileModal({ player, teamName, onClose }: { player: Player, tea
           
           <div className="relative z-10 flex items-end gap-6 w-full">
             <div className="h-32 w-32 shrink-0 overflow-hidden rounded-full bg-slate-50 border-4 border-white shadow-xl relative transform translate-y-8">
-              <img src={imgUrl} alt={player.name} className="w-full h-full object-cover" />
+              <Image src={imgUrl} alt={player.name} fill sizes="128px" className="w-full h-full object-cover" />
             </div>
             <div className="pb-2 flex-1">
               <div className="flex items-center gap-3 mb-1">
                 <span className="px-2.5 py-1 rounded-md bg-lime text-ink text-xs font-black uppercase tracking-widest">
                   #{player.jerseyNumber}
                 </span>
-                {flagUrl && <img src={flagUrl} alt={teamName} className="h-4 rounded-sm shadow-sm" />}
+                {flagUrl && <Image src={flagUrl} alt={teamName} width={24} height={16} className="h-4 w-auto rounded-sm shadow-sm" />}
               </div>
               <h2 className="text-3xl font-black text-white tracking-tight">{player.name}</h2>
               <p className="text-lime-200 font-medium">{player.position} · {teamName}</p>

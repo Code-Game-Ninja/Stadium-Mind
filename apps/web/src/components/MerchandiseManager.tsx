@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import Image from 'next/image';
 import { ShoppingBag, Plus, X, Star, BellRing } from 'lucide-react';
 import { api } from '@/lib/api';
 import type { MerchandiseItem } from '@stadiummind/shared';
@@ -25,19 +26,18 @@ export function MerchandiseManager({ matchId }: { matchId: string }) {
     exclusiveShops: [] as string[]
   });
 
-  const refreshMerchandise = async () => {
+  const refreshMerchandise = useCallback(async () => {
     try {
       const res = await api.getMerchandise(matchId);
       setMerchandise(res.merchandise);
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [matchId]);
 
   useEffect(() => {
     refreshMerchandise();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshMerchandise]);
 
   const handleUpdateStock = async (id: string, newStock: number) => {
     const item = merchandise.find(m => m.id === id);
@@ -203,8 +203,7 @@ export function MerchandiseManager({ matchId }: { matchId: string }) {
             
             <div className="flex items-start gap-4 mb-3">
               <div className="h-14 w-14 rounded-xl overflow-hidden flex-shrink-0 bg-slate-100 ring-1 ring-slate-900/5 relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <Image src={item.imageUrl} alt={item.name} fill sizes="56px" className="object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-bold text-slate-800 text-sm truncate" title={item.name}>{item.name}</h3>

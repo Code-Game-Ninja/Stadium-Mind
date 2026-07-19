@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged, applyForVolunteer, signUpFan } from '@/lib/auth';
 import { ShieldCheck, Zap, ArrowLeft, ArrowRight, Ticket, Trophy, LayoutDashboard, HardHat } from 'lucide-react';
@@ -126,10 +127,11 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-950 relative overflow-hidden flex items-center justify-center p-4 sm:p-6 lg:p-10">
       {/* Ambient backdrop */}
       <div className="absolute inset-0 pointer-events-none">
-        <img
+        <Image
           src="/images/stadium-login.png"
           alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-20 scale-110 blur-sm"
+          fill
+          className="object-cover opacity-20 scale-110 blur-sm"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#191A23]/95 via-[#191A23]/80 to-[#191A23]/90" />
         <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-lime/10 blur-[140px]" />
@@ -142,19 +144,21 @@ export default function LoginPage() {
         <div className="relative hidden lg:flex flex-col justify-between p-9 m-3 rounded-[2rem] overflow-hidden">
           {/* Crossfading imagery */}
           <div className="absolute inset-0 bg-slate-900">
-            <img
+            <Image
               src="/images/stadium-login.png"
               alt="Stadium at night"
+              fill
               className={cn(
-                'absolute inset-0 w-full h-full object-cover transition-all duration-700',
+                'object-cover transition-all duration-700',
                 mode === 'signup-volunteer' ? 'opacity-0 scale-105' : 'opacity-90 scale-100'
               )}
             />
-            <img
+            <Image
               src="/images/volunteer-login.png"
               alt="Volunteer concourse"
+              fill
               className={cn(
-                'absolute inset-0 w-full h-full object-cover transition-all duration-700',
+                'object-cover transition-all duration-700',
                 mode === 'signup-volunteer' ? 'opacity-90 scale-100' : 'opacity-0 scale-105'
               )}
             />

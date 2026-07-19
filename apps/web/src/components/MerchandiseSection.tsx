@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import Image from 'next/image';
 import { api } from '@/lib/api';
 import type { MerchandiseItem } from '@stadiummind/shared';
 
@@ -11,14 +12,14 @@ import { ShoppingBag, Check, X } from 'lucide-react';
 export function MerchandiseSection({ matchId = DEMO_MATCH_ID }: { matchId?: string }) {
   const [merchandise, setMerchandise] = useState<MerchandiseItem[]>([]);
 
-  const fetchMerchandise = async () => {
+  const fetchMerchandise = useCallback(async () => {
     try {
       const res = await api.getMerchandise(matchId);
       setMerchandise(res.merchandise);
     } catch (e) {
       console.error(e);
     }
-  };
+  }, [matchId]);
 
   useEffect(() => {
     fetchMerchandise();
@@ -28,8 +29,7 @@ export function MerchandiseSection({ matchId = DEMO_MATCH_ID }: { matchId?: stri
     };
     window.addEventListener('merch-updated', handleUpdate);
     return () => window.removeEventListener('merch-updated', handleUpdate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchMerchandise]);
 
   return (
     <section id="merchandise" className="scroll-mt-20">
@@ -45,11 +45,12 @@ export function MerchandiseSection({ matchId = DEMO_MATCH_ID }: { matchId?: stri
           return (
             <div key={item.id} className="min-w-[280px] sm:min-w-[300px] snap-start shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-shadow">
               <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
+                <Image 
                   src={item.imageUrl} 
                   alt={item.name} 
-                  className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${!inStock ? 'grayscale opacity-75' : ''}`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className={`object-cover transition-transform duration-500 group-hover:scale-105 ${!inStock ? 'grayscale opacity-75' : ''}`}
                 />
                 {!inStock && (
                   <div className="absolute inset-0 bg-slate-900/50 flex items-center justify-center">
